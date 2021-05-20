@@ -7,7 +7,7 @@ import {
     TouchableWithoutFeedback as TWF,
     Alert,
 } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
+import {FontAwesome as Icon} from "@expo/vector-icons";
 
 class AddComment extends Component {
     state = {

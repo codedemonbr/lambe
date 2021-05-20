@@ -1,5 +1,5 @@
 import registerRootComponent from "expo/build/launch/registerRootComponent";
 
-import Feed from "./src/screens/Feed";
+import Navigator from "./src/Navigator";
 
-registerRootComponent(Feed);
+registerRootComponent(Navigator);

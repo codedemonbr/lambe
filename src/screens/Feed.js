@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, FlatList, View } from "react-native";
+import { StyleSheet, FlatList, SafeAreaView } from "react-native";
 import Header from "../components/Header";
 import Post from "../components/Post";
 
@@ -57,14 +57,14 @@ class Feed extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <Header></Header>
+            <SafeAreaView style={styles.container}>
+                <Header />
                 <FlatList
                     data={this.state.posts}
                     keyExtractor={(item) => `${item.id}`}
                     renderItem={({ item }) => <Post key={item.id} {...item} />}
                 />
-            </View>
+            </SafeAreaView>
         );
     }
 }
