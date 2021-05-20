@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Feed from "./screens/Feed";
 import Login from "./screens/Login";
 import Profile from "./screens/Profile";
+import AddPhoto from "./screens/AddPhoto";
 import { FontAwesome as Icon } from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator();
@@ -15,7 +16,7 @@ const BottomTabs = () => {
             <Icon name="home" size={30} color={tintColor} />
         ),
     };
-    const loginOptions = {
+    const addPhotoOptions = {
         title: "Add Picture",
         tabBarIcon: ({ tintColor }) => (
             <Icon name="camera" size={30} color={tintColor} />
@@ -34,7 +35,11 @@ const BottomTabs = () => {
             tabBarOptions={{ showLabel: false }}
         >
             <Tab.Screen name="Feed" component={Feed} options={feedOptions} />
-            <Tab.Screen name="Login" component={Login} options={loginOptions} />
+            <Tab.Screen
+                name="AddPhoto"
+                component={AddPhoto}
+                options={addPhotoOptions}
+            />
             <Tab.Screen
                 name="Profile"
                 component={Profile}
