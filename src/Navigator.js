@@ -1,13 +1,59 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import {
+    createStackNavigator,
+    HeaderBackButton,
+} from "@react-navigation/stack";
 import Feed from "./screens/Feed";
 import Login from "./screens/Login";
 import Profile from "./screens/Profile";
 import AddPhoto from "./screens/AddPhoto";
 import { FontAwesome as Icon } from "@expo/vector-icons";
+import { Alert } from "react-native";
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
+const ProfileStackNav = () => {
+    return (
+        <Stack.Navigator initialRouteName="Profile">
+            <Stack.Screen name="Profile" component={Profile} />
+            <Stack.Screen
+                name="Auth"
+                component={Login}
+                options={{
+                    headerShown: true,
+                    headerLeft: (props) => (
+                        <HeaderBackButton
+                            {...props}
+                            onPress={() =>
+                                Alert.alert(
+                                    "Alert title",
+                                    "My Alert Msg",
+                                    [
+                                        {
+                                            text: "Cancel",
+                                            onPress: () =>
+                                                console.log("Cancel Pressed"),
+                                            style: "cancel",
+                                        },
+                                        {
+                                            text: "OK",
+                                            onPress: () =>
+                                                console.log("Ok Pressed"),
+                                        },
+                                    ],
+                                    { cancelable: false }
+                                )
+                            }
+                        />
+                    ),
+                }}
+            />
+        </Stack.Navigator>
+    );
+};
 
 const BottomTabs = () => {
     const feedOptions = {
@@ -29,6 +75,10 @@ const BottomTabs = () => {
         ),
     };
 
+    const loginOptions = {
+        title: "login",
+    };
+
     return (
         <Tab.Navigator
             initialRouteName={"Feed"}
@@ -42,7 +92,7 @@ const BottomTabs = () => {
             />
             <Tab.Screen
                 name="Profile"
-                component={Profile}
+                component={ProfileStackNav}
                 options={profileOptions}
             />
         </Tab.Navigator>
