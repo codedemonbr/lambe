@@ -9,11 +9,30 @@ import Feed from "./screens/Feed";
 import Login from "./screens/Login";
 import Profile from "./screens/Profile";
 import AddPhoto from "./screens/AddPhoto";
+import Register from "./screens/Register";
+
 import { FontAwesome as Icon } from "@expo/vector-icons";
 import { Alert } from "react-native";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
+
+const AuthStackNav = () => {
+    return (
+        <Stack.Navigator initialRouteName="Login">
+            <Stack.Screen
+                name="Login"
+                component={Login}
+                options={{ title: "Login", headerShown: false }}
+            />
+            <Stack.Screen
+                name="Register"
+                component={Register}
+                options={{ title: "Register" }}
+            />
+        </Stack.Navigator>
+    );
+};
 
 const ProfileStackNav = () => {
     return (
@@ -21,34 +40,9 @@ const ProfileStackNav = () => {
             <Stack.Screen name="Profile" component={Profile} />
             <Stack.Screen
                 name="Auth"
-                component={Login}
+                component={AuthStackNav}
                 options={{
-                    headerShown: true,
-                    headerLeft: (props) => (
-                        <HeaderBackButton
-                            {...props}
-                            onPress={() =>
-                                Alert.alert(
-                                    "Alert title",
-                                    "My Alert Msg",
-                                    [
-                                        {
-                                            text: "Cancel",
-                                            onPress: () =>
-                                                console.log("Cancel Pressed"),
-                                            style: "cancel",
-                                        },
-                                        {
-                                            text: "OK",
-                                            onPress: () =>
-                                                console.log("Ok Pressed"),
-                                        },
-                                    ],
-                                    { cancelable: false }
-                                )
-                            }
-                        />
-                    ),
+                    headerShown: false,
                 }}
             />
         </Stack.Navigator>

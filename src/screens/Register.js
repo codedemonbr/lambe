@@ -1,34 +1,32 @@
 import React, { Component } from "react";
 import {
-    SafeAreaView,
-    Text,
     StyleSheet,
+    SafeAreaView,
     View,
+    Text,
     TextInput,
     TouchableOpacity,
-    BackHandler,
 } from "react-native";
 
-export default class Login extends Component {
+export default class Register extends Component {
     state = {
+        name: "",
         email: "",
         password: "",
     };
-
-    login = () => {
-        this.props.navigation.navigate("Profile");
-    };
-    componentDidMount = () => {
-        BackHandler.addEventListener("hardwareBackPress", () => true); //desabilita botao voltar
-    };
-
-    render = () => {
+    render() {
         return (
             <SafeAreaView style={styles.container}>
                 <TextInput
-                    placeholder="Email"
+                    placeholder="Nome"
                     style={styles.input}
                     autoFocus={true}
+                    value={this.state.name}
+                    onChangeText={(name) => this.setState({ name })}
+                />
+                <TextInput
+                    placeholder="Email"
+                    style={styles.input}
                     keyboardType="email-address"
                     value={this.state.email}
                     onChangeText={(email) => this.setState({ email })}
@@ -36,28 +34,17 @@ export default class Login extends Component {
                 <TextInput
                     placeholder="Senha"
                     style={styles.input}
-                    secureTextEntry={true}
-                    keyboardType="default"
                     value={this.state.password}
+                    secureTextEntry={true}
                     onChangeText={(password) => this.setState({ password })}
                 />
 
-                <TouchableOpacity onPress={this.login} style={styles.buttom}>
-                    <Text style={styles.buttomText}>Login</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={() => {
-                        this.props.navigation.navigate("Register");
-                    }}
-                    style={styles.buttom}
-                >
-                    <Text style={styles.buttomText}>
-                        Criar uma nova conta...
-                    </Text>
+                <TouchableOpacity onPress={() => {}} style={styles.buttom}>
+                    <Text style={styles.buttomText}>Salvar</Text>
                 </TouchableOpacity>
             </SafeAreaView>
         );
-    };
+    }
 }
 
 const styles = StyleSheet.create({
