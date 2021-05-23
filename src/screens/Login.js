@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { login } from "../store/actions/user";
 import {
     SafeAreaView,
     Text,
@@ -9,13 +11,15 @@ import {
     BackHandler,
 } from "react-native";
 
-export default class Login extends Component {
+class Login extends Component {
     state = {
+        name: "Temporario",
         email: "",
         password: "",
     };
 
     login = () => {
+        this.props.onLogin({ ...this.state });
         this.props.navigation.navigate("Profile");
     };
     componentDidMount = () => {
@@ -59,6 +63,14 @@ export default class Login extends Component {
         );
     };
 }
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onLogin: (user) => dispatch(login(user)),
+    };
+};
+
+export default connect(null, mapDispatchToProps)(Login);
 
 const styles = StyleSheet.create({
     container: {

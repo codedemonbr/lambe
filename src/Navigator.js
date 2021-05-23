@@ -52,27 +52,22 @@ const ProfileStackNav = () => {
 const BottomTabs = () => {
     const feedOptions = {
         title: "Feed",
-        tabBarIcon: ({ tintColor }) => (
+        tabBarIcon: ({ tintColor = "#888" }) => (
             <Icon name="home" size={30} color={tintColor} />
         ),
     };
     const addPhotoOptions = {
         title: "Add Picture",
-        tabBarIcon: ({ tintColor }) => (
+        tabBarIcon: ({ tintColor = "#888" }) => (
             <Icon name="camera" size={30} color={tintColor} />
         ),
     };
     const profileOptions = {
         title: "Profile",
-        tabBarIcon: ({ tintColor }) => (
+        tabBarIcon: ({ tintColor = "#888" }) => (
             <Icon name="user" size={30} color={tintColor} />
         ),
     };
-
-    const loginOptions = {
-        title: "login",
-    };
-
     return (
         <Tab.Navigator
             initialRouteName={"Feed"}
