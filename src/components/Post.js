@@ -18,7 +18,7 @@ class Post extends Component {
                     nickname={this.props.nickname}
                 />
                 <Comments comments={this.props.comments} />
-                <AddComment />
+                <AddComment postId={this.props.id} />
             </View>
         );
     }
