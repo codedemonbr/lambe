@@ -16,6 +16,8 @@ import {
 import { FontAwesome as Icon } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 
+const noUser = "Você precisa estar logado para adicionar imagens";
+
 class AddPhoto extends Component {
     state = {
         image: null,
@@ -23,6 +25,11 @@ class AddPhoto extends Component {
     };
 
     pickImage = async () => {
+        if (!this.props.name) {
+            Alert.alert("Falha!", noUser);
+            return;
+        }
+
         if (ImagePicker.getMediaLibraryPermissionsAsync()) {
             const result = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -36,6 +43,11 @@ class AddPhoto extends Component {
         }
     };
     takePicture = async () => {
+        if (!this.props.name) {
+            Alert.alert("Falha!", noUser);
+            return;
+        }
+
         const result = await ImagePicker.launchCameraAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
@@ -43,14 +55,17 @@ class AddPhoto extends Component {
             quality: 1,
         });
 
-        // console.log(result);
-
         if (!result.cancelled) {
             this.setState({ image: result.uri });
         }
     };
 
     save = async () => {
+        if (!this.props.name) {
+            Alert.alert("Falha!", noUser);
+            return;
+        }
+
         this.props.onAddPost({
             id: Math.random(),
             nickname: this.props.name,
@@ -100,6 +115,7 @@ class AddPhoto extends Component {
                         placeholder="Algum comentário para a foto?"
                         style={styles.input}
                         value={this.state.comment}
+                        editable={!!this.props.name}
                         onChangeText={(comment) => this.setState({ comment })}
                     />
                     <TouchableOpacity onPress={this.save} style={styles.buttom}>
