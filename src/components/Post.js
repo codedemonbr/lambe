@@ -6,9 +6,13 @@ import AddComment from "./AddComment";
 
 class Post extends Component {
     render() {
+        const img =
+            typeof this.props.image === "number"
+                ? this.props.image
+                : { uri: this.props.image };
         return (
             <View style={styles.container}>
-                <Image source={this.props.image} style={styles.image} />
+                <Image source={img} style={styles.image} />
                 <Author
                     email={this.props.email}
                     nickname={this.props.nickname}
