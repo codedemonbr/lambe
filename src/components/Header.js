@@ -1,7 +1,9 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { StyleSheet, Text, View, Platform, Image } from "react-native";
 import icon from "../../assets/imgs/icon.png";
 import FontLoader from "../common/FontLoader";
+import { Gravatar } from "react-native-gravatar";
 
 class Header extends FontLoader {
     state = {
@@ -13,12 +15,23 @@ class Header extends FontLoader {
     }
 
     render() {
+        const name = this.props.name || "Anonymous";
+        const gravatar = this.props.email ? (
+            <Gravatar
+                options={{ email: this.props.email, secure: true }}
+                style={styles.avatar}
+            />
+        ) : null;
         if (this.state.fontsLoaded) {
             return (
                 <View style={styles.container}>
                     <View style={styles.rowContainer}>
                         <Image source={icon} style={styles.image} />
                         <Text style={styles.title}>Lambe Lambe</Text>
+                    </View>
+                    <View style={styles.userContainer}>
+                        <Text style={styles.user}>{name}</Text>
+                        {gravatar}
                     </View>
                 </View>
             );
@@ -37,6 +50,8 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderColor: "#BBB",
         width: "100%",
+        flexDirection: "row",
+        justifyContent: "space-between",
     },
     rowContainer: {
         flexDirection: "row",
@@ -53,6 +68,27 @@ const styles = StyleSheet.create({
         height: 30,
         fontSize: 28,
     },
+    userContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    user: {
+        fontSize: 10,
+        color: "#888",
+    },
+    avatar: {
+        width: 30,
+        height: 30,
+        marginLeft: 10,
+        borderRadius: 15,
+    },
 });
 
-export default Header;
+const mapStateToProps = ({ user }) => {
+    return {
+        email: user.email,
+        name: user.name,
+    };
+};
+
+export default connect(mapStateToProps)(Header);
