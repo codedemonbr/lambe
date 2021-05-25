@@ -35,6 +35,7 @@ class AddPhoto extends Component {
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 allowsEditing: true,
                 aspect: [4, 3],
+                // base64: true,
                 quality: 1,
             });
             if (!result.cancelled) {
@@ -52,6 +53,7 @@ class AddPhoto extends Component {
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             aspect: [4, 3],
+            // base64: true,
             quality: 1,
         });
 
