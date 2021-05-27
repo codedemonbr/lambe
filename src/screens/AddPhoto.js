@@ -35,11 +35,13 @@ class AddPhoto extends Component {
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 allowsEditing: true,
                 aspect: [4, 3],
-                // base64: true,
+                base64: true,
                 quality: 1,
             });
             if (!result.cancelled) {
-                this.setState({ image: result.uri });
+                this.setState({
+                    image: { uri: result.uri, base64: result.base64 },
+                });
             }
         }
     };
@@ -53,12 +55,15 @@ class AddPhoto extends Component {
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             aspect: [4, 3],
-            // base64: true,
+            base64: true,
             quality: 1,
         });
 
         if (!result.cancelled) {
-            this.setState({ image: result.uri });
+            // console.log(result);
+            this.setState({
+                image: { uri: result.uri, base64: result.base64 },
+            });
         }
     };
 
@@ -67,6 +72,7 @@ class AddPhoto extends Component {
             Alert.alert("Falha!", noUser);
             return;
         }
+
 
         this.props.onAddPost({
             id: Math.random(),
@@ -93,7 +99,7 @@ class AddPhoto extends Component {
                     <View style={styles.imageContainer}>
                         {this.state.image && (
                             <Image
-                                source={{ uri: this.state.image }}
+                                source={{ uri: this.state.image.uri }}
                                 style={styles.image}
                             />
                         )}
