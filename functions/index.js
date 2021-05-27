@@ -36,7 +36,7 @@ exports.uploadImage = functions.https.onRequest((request, response) => {
                         console.log(err);
                         return response.status(500).json({ error: err });
                     } else {
-                        const fileName = encondeURIComponent(file.name);
+                        const fileName = encodeURIComponent(file.name);
                         const imageUrl =
                             "https://firebasestorage.googleapis.com/v0/b/" +
                             bucket.name +
@@ -52,7 +52,7 @@ exports.uploadImage = functions.https.onRequest((request, response) => {
             );
         } catch (error) {
             console.log(error);
-            return response.status(500);
+            return response.status(500).json({ error: error });
         }
     });
 });
