@@ -18,9 +18,14 @@ class Login extends Component {
         password: "",
     };
 
+    componentDidUpdate = (prevProps) => {
+        if (prevProps.isLoading && !this.props.isLoading) {
+            this.props.navigation.navigate("Profile");
+        }
+    };
+
     login = () => {
         this.props.onLogin({ ...this.state });
-        this.props.navigation.navigate("Profile");
     };
     componentDidMount = () => {
         BackHandler.addEventListener("hardwareBackPress", () => true); //desabilita botao voltar
@@ -70,7 +75,13 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+const mapStateToProps = ({ user }) => {
+    return {
+        isLoading: user.isLoading,
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
 
 const styles = StyleSheet.create({
     container: {
