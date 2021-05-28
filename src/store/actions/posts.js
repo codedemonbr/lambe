@@ -5,6 +5,7 @@ import {
     POST_CREATED,
 } from "./actionsTypes";
 import axios from "axios";
+import { ActionSheetIOS } from "react-native";
 export const addPost = (post) => {
     return (dispatch) => {
         dispatch(creatingPost());
@@ -31,10 +32,26 @@ export const addPost = (post) => {
 };
 
 export const addComment = (payload) => {
-    return {
-        type: ADD_COMMENT,
-        payload,
+    return (dispatch) => {
+        axios
+            .get(`/posts/${payload.postId}.json`)
+            .catch((err) => console.log(err))
+            .then((res) => {
+                const comments = res.data.comments || [];
+                comments.push(payload.comment);
+                axios
+                    .patch(`/posts/${payload.postId}.json`, { comments })
+                    .catch((err) => console.log(err))
+                    .then((res) => {
+                        dispatch(fetchPosts());
+                    });
+            });
     };
+
+    // return {
+    //     type: ADD_COMMENT,
+    //     payload,
+    // };
 };
 
 export const setPosts = (posts) => {
