@@ -13,3 +13,4 @@ web-build/
 .DS_Store
 
 lambe-firebase-key.json
+secretAPI.js
