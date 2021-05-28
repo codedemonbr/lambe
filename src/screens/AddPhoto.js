@@ -24,6 +24,16 @@ class AddPhoto extends Component {
         comment: "",
     };
 
+    componentDidUpdate = (prevProps) => {
+        if (prevProps.loading && !this.props.loading) {
+            this.setState({
+                image: null,
+                comment: "",
+            });
+            this.props.navigation.navigate("Feed");
+        }
+    };
+
     pickImage = async () => {
         if (!this.props.name) {
             Alert.alert("Falha!", noUser);
@@ -36,7 +46,7 @@ class AddPhoto extends Component {
                 allowsEditing: true,
                 aspect: [4, 3],
                 base64: true,
-                quality: 1,
+                quality: 0.6,
             });
             if (!result.cancelled) {
                 this.setState({
@@ -56,7 +66,7 @@ class AddPhoto extends Component {
             allowsEditing: true,
             aspect: [4, 3],
             base64: true,
-            quality: 1,
+            quality: 0.6,
         });
 
         if (!result.cancelled) {
@@ -73,7 +83,6 @@ class AddPhoto extends Component {
             return;
         }
 
-
         this.props.onAddPost({
             id: Math.random(),
             nickname: this.props.name,
@@ -86,9 +95,6 @@ class AddPhoto extends Component {
                 },
             ],
         });
-
-        this.setState({ image: null, comment: "" });
-        this.props.navigation.navigate("Feed");
     };
 
     render() {
@@ -126,7 +132,14 @@ class AddPhoto extends Component {
                         editable={!!this.props.name}
                         onChangeText={(comment) => this.setState({ comment })}
                     />
-                    <TouchableOpacity onPress={this.save} style={styles.buttom}>
+                    <TouchableOpacity
+                        onPress={this.save}
+                        style={[
+                            styles.buttom,
+                            this.props.loading ? styles.buttonDisabled : null,
+                        ]}
+                        disabled={this.props.loading}
+                    >
                         <View style={styles.bottomSave}>
                             <Icon name="save" size={32} color="white" />
                             <Text style={styles.buttomText}>Salvar</Text>
@@ -138,10 +151,11 @@ class AddPhoto extends Component {
     }
 }
 
-const mapStateToProps = ({ user }) => {
+const mapStateToProps = ({ user, posts }) => {
     return {
         email: user.email,
         name: user.name,
+        loading: posts.isUploading,
     };
 };
 
@@ -200,5 +214,8 @@ const styles = StyleSheet.create({
     input: {
         marginTop: 20,
         width: "90%",
+    },
+    buttonDisabled: {
+        backgroundColor: "#AAA",
     },
 });
