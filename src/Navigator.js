@@ -1,18 +1,16 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import {
-    createStackNavigator,
-    HeaderBackButton,
-} from "@react-navigation/stack";
+import { createStackNavigator } from "@react-navigation/stack";
+
 import Feed from "./screens/Feed";
 import Login from "./screens/Login";
 import Profile from "./screens/Profile";
 import AddPhoto from "./screens/AddPhoto";
 import Register from "./screens/Register";
+import Splash from "./screens/Splash";
 
 import { FontAwesome as Icon } from "@expo/vector-icons";
-import { Alert } from "react-native";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -92,12 +90,29 @@ const BottomTabs = () => {
     );
 };
 
-const TabNavigator = () => {
+const SplashRouter = () => {
+    return (
+        <Stack.Navigator initialRouteName="Splash">
+            <Stack.Screen
+                name="Splash"
+                component={Splash}
+                options={{ title: "Splash", headerShown: false }}
+            />
+            <Stack.Screen
+                name="App"
+                component={BottomTabs}
+                options={{ title: "App", headerShown: false }}
+            />
+        </Stack.Navigator>
+    );
+};
+
+const MainNavigator = () => {
     return (
         <NavigationContainer>
-            <BottomTabs />
+            <SplashRouter />
         </NavigationContainer>
     );
 };
 
-export default TabNavigator;
+export default MainNavigator;
