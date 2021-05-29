@@ -37,7 +37,11 @@ const AuthStackNav = () => {
 const ProfileStackNav = () => {
     return (
         <Stack.Navigator initialRouteName="Auth">
-            <Stack.Screen name="Profile" component={Profile} />
+            <Stack.Screen
+                name="Profile"
+                component={Profile}
+                options={{ title: "Profile", headerShown: false }}
+            />
             <Stack.Screen
                 name="Auth"
                 component={AuthStackNav}

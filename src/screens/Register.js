@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {
     StyleSheet,
     SafeAreaView,
-    View,
     Text,
     TextInput,
     TouchableOpacity,
@@ -17,6 +16,18 @@ class Register extends Component {
         email: "",
         password: "",
     };
+
+    componentDidUpdate = (prevProps) => {
+        if (prevProps.isLoading && !this.props.isLoading) {
+            this.setState({
+                name: "",
+                email: "",
+                password: "",
+            });
+            this.props.navigation.navigate("Profile");
+        }
+    };
+
     render() {
         return (
             <SafeAreaView style={styles.container}>
@@ -54,6 +65,11 @@ class Register extends Component {
         );
     }
 }
+const mapStateToProps = ({ user }) => {
+    return {
+        isLoading: user.isLoading,
+    };
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -61,7 +77,7 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(null, mapDispatchToProps)(Register);
+export default connect(mapStateToProps, mapDispatchToProps)(Register);
 
 const styles = StyleSheet.create({
     container: {
