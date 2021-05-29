@@ -7,6 +7,7 @@ import {
 
 import axios from "axios";
 import { setMessage } from "./message";
+import * as ERRORS from "../../common/errorCode"
 
 const authBaseURL =
     "https://www.googleapis.com/identitytoolkit/v3/relyingparty";
