@@ -6,6 +6,7 @@ import {
 } from "./actionsTypes";
 
 import axios from "axios";
+import { setMessage } from "./message";
 
 const authBaseURL =
     "https://www.googleapis.com/identitytoolkit/v3/relyingparty";
@@ -32,16 +33,35 @@ export const createUser = (user) => {
                 password: user.password,
                 returnSecureToken: true,
             })
-            .catch((err) => console.log(err))
+            .catch((err) => {
+                dispatch(
+                    setMessage({
+                        title: "Erro",
+                        text: `Status: ${err.response.status} Contate o administrador e informe o código ${ERRORS.er006.code}`,
+                    })
+                );
+            })
             .then((res) => {
                 if (res.data.localId) {
                     axios
                         .put(`/users/${res.data.localId}.json`, {
                             name: user.name,
                         })
-                        .catch((err) => console.log(err))
+                        .catch((err) => {
+                            dispatch(
+                                setMessage({
+                                    title: "Erro",
+                                    text: `Status: ${err.response.status} Contate o administrador e informe o código ${ERRORS.er007.code}`,
+                                })
+                            );
+                        })
                         .then((res) => {
-                            console.log("Usuário criado com sucesso");
+                            dispatch(
+                                setMessage({
+                                    title: "Sucesso",
+                                    text: `Usuário criado com sucesso!`,
+                                })
+                            );
                         });
                 }
             });
@@ -69,12 +89,26 @@ export const login = (user) => {
                 password: user.password,
                 returnSecureToken: true,
             })
-            .catch((err) => console.log(err))
+            .catch((err) => {
+                dispatch(
+                    setMessage({
+                        title: "Erro",
+                        text: `Status: ${err.response.status} Contate o administrador e informe o código ${ERRORS.er008.code}`,
+                    })
+                );
+            })
             .then((res) => {
                 if (res.data.localId) {
                     axios
                         .get(`/users/${res.data.localId}.json`)
-                        .catch((err) => console.log(err))
+                        .catch((err) => {
+                            dispatch(
+                                setMessage({
+                                    title: "Erro",
+                                    text: `Status: ${err.response.status} Contate o administrador e informe o código ${ERRORS.er009.code}`,
+                                })
+                            );
+                        })
                         .then((res) => {
                             user.password = null;
                             user.name = res.data.name;

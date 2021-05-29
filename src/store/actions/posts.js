@@ -5,7 +5,10 @@ import {
     POST_CREATED,
 } from "./actionsTypes";
 import axios from "axios";
-import { ActionSheetIOS } from "react-native";
+import { setMessage } from "./message";
+
+import * as ERRORS from "../../common/errorCode";
+
 export const addPost = (post) => {
     return (dispatch) => {
         dispatch(creatingPost());
@@ -17,12 +20,26 @@ export const addPost = (post) => {
                 image: post.image.base64,
             },
         })
-            .catch((err) => console.log(err))
+            .catch((err) => {
+                dispatch(
+                    setMessage({
+                        title: "Falhou",
+                        text: `Status: ${err.response.status} Contate o administrador e informe o código ${ERRORS.er001.code} `,
+                    })
+                );
+            })
             .then((resp) => {
                 post.image = resp.data.imageUrl;
                 axios
                     .post("posts.json", { ...post })
-                    .catch((err) => console.log(err))
+                    .catch((err) => {
+                        dispatch(
+                            setMessage({
+                                title: "Erro",
+                                text: `Status: ${err.response.status} Contate o administrador e informe o código ${ERRORS.er002.code}`,
+                            })
+                        );
+                    })
                     .then((res) => {
                         dispatch(fetchPosts());
                         dispatch(postCreated());
@@ -35,13 +52,27 @@ export const addComment = (payload) => {
     return (dispatch) => {
         axios
             .get(`/posts/${payload.postId}.json`)
-            .catch((err) => console.log(err))
+            .catch((err) => {
+                dispatch(
+                    setMessage({
+                        title: "Erro",
+                        text: `Status: ${err.response.status} Contate o administrador e informe o código ${ERRORS.er003.code}`,
+                    })
+                );
+            })
             .then((res) => {
                 const comments = res.data.comments || [];
                 comments.push(payload.comment);
                 axios
                     .patch(`/posts/${payload.postId}.json`, { comments })
-                    .catch((err) => console.log(err))
+                    .catch((err) => {
+                        dispatch(
+                            setMessage({
+                                title: "Erro",
+                                text: `Status: ${err.response.status} Contate o administrador e informe o código ${ERRORS.er004.code}`,
+                            })
+                        );
+                    })
                     .then((res) => {
                         dispatch(fetchPosts());
                     });
@@ -65,7 +96,14 @@ export const fetchPosts = () => {
     return (dispatch) => {
         axios
             .get("/posts.json")
-            .catch((err) => console.log(err))
+            .catch((err) => {
+                dispatch(
+                    setMessage({
+                        title: "Erro",
+                        text: `Status: ${err.response.status} Contate o administrador e informe o código ${ERRORS.er005.code}`,
+                    })
+                );
+            })
             .then((res) => {
                 const rawPosts = res.data;
                 const posts = [];
