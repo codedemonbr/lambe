@@ -7,7 +7,7 @@ import {
 
 import axios from "axios";
 import { setMessage } from "./message";
-import * as ERRORS from "../../common/errorCode"
+import * as ERRORS from "../../common/errorCode";
 
 const authBaseURL =
     "https://www.googleapis.com/identitytoolkit/v3/relyingparty";
@@ -58,10 +58,7 @@ export const createUser = (user) => {
                             );
                         })
                         .then(() => {
-                            delete user.password
-                            user.id = res.data.localId
-                            dispatch(userLogged(user))
-                            dispatch(userLoaded())
+                            dispatch(login(user));
                         });
                 }
             });
@@ -99,6 +96,7 @@ export const login = (user) => {
             })
             .then((res) => {
                 if (res.data.localId) {
+                    user.token = res.data.idToken;
                     axios
                         .get(`/users/${res.data.localId}.json`)
                         .catch((err) => {
@@ -110,7 +108,7 @@ export const login = (user) => {
                             );
                         })
                         .then((res) => {
-                            delete user.password
+                            delete user.password;
                             user.name = res.data.name;
                             dispatch(userLogged(user));
                             dispatch(userLoaded());
